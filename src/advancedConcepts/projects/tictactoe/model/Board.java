@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private List<List<Cell>> board;
+    private List<List<Cell>> matrix;
     private int dimension;
 
     /*
@@ -18,21 +18,21 @@ public class Board {
 
     public Board(int dimension){
         this.dimension = dimension;
-        board = new ArrayList<List<Cell>>();
+        matrix = new ArrayList<List<Cell>>();
         for(int i=0;i<dimension;i++){
-            board.add(new ArrayList<>());
+            matrix.add(new ArrayList<>());
             for(int j=0;j<dimension;j++){
-                board.get(i).add(new Cell(i,j));
+                matrix.get(i).add(new Cell(i,j));
             }
         }
     }
 
-    public List<List<Cell>> getBoard() {
-        return board;
+    public List<List<Cell>> getMatrix() {
+        return matrix;
     }
 
-    public void setBoard(List<List<Cell>> board) {
-        this.board = board;
+    public void setMatrix(List<List<Cell>> matrix) {
+        this.matrix = matrix;
     }
 
     public int getDimension() {

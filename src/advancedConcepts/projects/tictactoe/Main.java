@@ -8,7 +8,6 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         //basic initialisations
-        GameController gameController = new GameController();
         int id = 1;
         List<Player> players = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -16,6 +15,7 @@ public class Main {
         //taking user inputs
         System.out.println("Please enter the dimension for the board");
         int dimension = scanner.nextInt();
+        GameController gameController = new GameController(dimension);
         System.out.println("Do you want a bot in the game ? (Y/N)");
         String botAns = scanner.next();
         // adding a bot into players list
@@ -49,6 +49,7 @@ public class Main {
             Player winner = gameController.checkWinner(game, executedMove);
             if(winner !=  null){
                 System.out.println("WINNER IS : " + winner.getName());
+                gameController.displayBoard(game);
                 gameController.updateGameStatus(game, GameStatus.WIN);
                 break;
             }
@@ -56,6 +57,5 @@ public class Main {
     }
 }
 /*
-        P1, P2, P3, P4
-        i
+
  */
