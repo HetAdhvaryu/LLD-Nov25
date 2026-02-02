@@ -3,7 +3,7 @@ package advancedConcepts.projects.parkingLot.model;
 import advancedConcepts.projects.parkingLot.model.constants.ParkingLotStatus;
 import advancedConcepts.projects.parkingLot.model.constants.VehicleType;
 import advancedConcepts.projects.parkingLot.service.billingStrategy.BillCalculationStrategy;
-import advancedConcepts.projects.parkingLot.service.slotAllocationStrategy.SlotAllocationStrategy;
+import advancedConcepts.projects.parkingLot.service.spotAllocationStrategy.SpotAllocationStrategy;
 
 import java.util.List;
 
@@ -15,11 +15,12 @@ public class ParkingLot extends BaseModel{
     private List<VehicleType> vehicleTypesSupported;
     private List<Operator> operators;
     private int capacity;
+    private int currentOccupancy;
     private BillCalculationStrategy billCalculationStrategy;
-    private SlotAllocationStrategy slotAllocationStrategy;
+    private SpotAllocationStrategy spotAllocationStrategy;
 
 
-    public ParkingLot(String name, String address, List<ParkingFloor> floors, ParkingLotStatus parkingLotStatus, List<VehicleType> vehicleTypesSupported, List<Operator> operators, int capacity, BillCalculationStrategy billCalculationStrategy, SlotAllocationStrategy slotAllocationStrategy) {
+    public ParkingLot(String name, String address, List<ParkingFloor> floors, ParkingLotStatus parkingLotStatus, List<VehicleType> vehicleTypesSupported, List<Operator> operators, int capacity, BillCalculationStrategy billCalculationStrategy, SpotAllocationStrategy spotAllocationStrategy) {
         this.name = name;
         this.address = address;
         this.floors = floors;
@@ -28,7 +29,7 @@ public class ParkingLot extends BaseModel{
         this.operators = operators;
         this.capacity = capacity;
         this.billCalculationStrategy = billCalculationStrategy;
-        this.slotAllocationStrategy = slotAllocationStrategy;
+        this.spotAllocationStrategy = spotAllocationStrategy;
     }
 
     public String getName() {
@@ -95,11 +96,11 @@ public class ParkingLot extends BaseModel{
         this.billCalculationStrategy = billCalculationStrategy;
     }
 
-    public SlotAllocationStrategy getSlotAllocationStrategy() {
-        return slotAllocationStrategy;
+    public SpotAllocationStrategy getSlotAllocationStrategy() {
+        return spotAllocationStrategy;
     }
 
-    public void setSlotAllocationStrategy(SlotAllocationStrategy slotAllocationStrategy) {
-        this.slotAllocationStrategy = slotAllocationStrategy;
+    public void setSlotAllocationStrategy(SpotAllocationStrategy spotAllocationStrategy) {
+        this.spotAllocationStrategy = spotAllocationStrategy;
     }
 }
