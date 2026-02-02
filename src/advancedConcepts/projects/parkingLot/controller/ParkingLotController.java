@@ -8,5 +8,6 @@ public class ParkingLotController {
 
     public ParkingLotController() {
         this.parkingLotService = new ParkingLotService();
+
     }
 }
