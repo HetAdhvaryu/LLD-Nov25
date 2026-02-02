@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class SurgeBasedBillCalculationStrategy implements BillCalculationStrategy{
     @Override
-    public Bill generateBill(Ticket ticket, double occupancyRatio) {
+    public double calculateBillCost(Ticket ticket, double occupancyRatio) {
         LocalDateTime entryTime = ticket.getEntryTime();
         LocalDateTime exitTime = LocalDateTime.now();
         long numberOfSeconds = java.time.temporal.ChronoUnit.SECONDS.between(entryTime, exitTime);
@@ -27,14 +27,6 @@ public class SurgeBasedBillCalculationStrategy implements BillCalculationStrateg
         } else if (occupancyRatio >= 0.9 && occupancyRatio < 1.0){
             totalCost = totalCost * CostConfiguration.SURGE_MULTIPLIER * 2;
         }
-
-        Bill bill = new Bill();
-        bill.setExitTime(exitTime);
-        bill.setAmount(totalCost);
-        bill.setTicket(ticket);
-        bill.setBillStatus(BillStatus.PAID);
-        bill.setPaymentMode(PaymentMode.UPI);
-        bill.setPaymentRefNumber("PAY12345");
-        return bill;
+        return totalCost;
     }
 }

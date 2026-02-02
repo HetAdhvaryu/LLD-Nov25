@@ -8,6 +8,9 @@ public class Ticket extends BaseModel{
     private ParkingSpot parkingSpot;
     private Gate entryGate;
 
+    public Ticket() {
+    }
+
     public Ticket(LocalDateTime entryTime, Vehicle vehicle, ParkingSpot parkingSpot, Gate entryGate) {
         this.entryTime = entryTime;
         this.vehicle = vehicle;

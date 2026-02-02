@@ -19,6 +19,8 @@ public class ParkingLot extends BaseModel{
     private BillCalculationStrategy billCalculationStrategy;
     private SpotAllocationStrategy spotAllocationStrategy;
 
+    public ParkingLot() {
+    }
 
     public ParkingLot(String name, String address, List<ParkingFloor> floors, ParkingLotStatus parkingLotStatus, List<VehicleType> vehicleTypesSupported, List<Operator> operators, int capacity, BillCalculationStrategy billCalculationStrategy, SpotAllocationStrategy spotAllocationStrategy) {
         this.name = name;
@@ -102,5 +104,13 @@ public class ParkingLot extends BaseModel{
 
     public void setSlotAllocationStrategy(SpotAllocationStrategy spotAllocationStrategy) {
         this.spotAllocationStrategy = spotAllocationStrategy;
+    }
+
+    public int getCurrentOccupancy() {
+        return currentOccupancy;
+    }
+
+    public void setCurrentOccupancy(int currentOccupancy) {
+        this.currentOccupancy = currentOccupancy;
     }
 }

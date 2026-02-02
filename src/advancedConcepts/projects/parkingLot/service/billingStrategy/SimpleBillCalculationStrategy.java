@@ -1,16 +1,13 @@
 package advancedConcepts.projects.parkingLot.service.billingStrategy;
 
-import advancedConcepts.projects.parkingLot.model.Bill;
 import advancedConcepts.projects.parkingLot.model.Ticket;
-import advancedConcepts.projects.parkingLot.model.constants.BillStatus;
-import advancedConcepts.projects.parkingLot.model.constants.PaymentMode;
 
 import java.time.LocalDateTime;
 
 public class SimpleBillCalculationStrategy implements BillCalculationStrategy{
 
     @Override
-    public Bill generateBill(Ticket ticket, double occupancyRatio) {
+    public double calculateBillCost(Ticket ticket, double occupancyRatio) {
         LocalDateTime entryTime = ticket.getEntryTime();
         LocalDateTime exitTime = LocalDateTime.now();
         long numberOfSeconds = java.time.temporal.ChronoUnit.SECONDS.between(entryTime, exitTime);
@@ -18,15 +15,6 @@ public class SimpleBillCalculationStrategy implements BillCalculationStrategy{
         int numberOfHours = 5; // hard-coded for now
         int initialCost = CostConfiguration.initialHourCostMap.get(ticket.getVehicle().getVehicleType());
         int additionalCost = CostConfiguration.additionalHourCostMap.get(ticket.getVehicle().getVehicleType()) * (numberOfHours - 1);
-        double totalCost = initialCost + additionalCost;
-
-        Bill bill = new Bill();
-        bill.setExitTime(exitTime);
-        bill.setAmount(totalCost);
-        bill.setTicket(ticket);
-        bill.setBillStatus(BillStatus.PAID);
-        bill.setPaymentMode(PaymentMode.UPI);
-        bill.setPaymentRefNumber("PAY12345");
-        return bill;
+        return initialCost + additionalCost;
     }
 }

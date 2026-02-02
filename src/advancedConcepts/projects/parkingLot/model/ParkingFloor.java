@@ -10,6 +10,9 @@ public class ParkingFloor extends BaseModel{
     private List<Gate> gates;
     private ParkingFloorStatus parkingFloorStatus;
 
+    public ParkingFloor() {
+    }
+
     public ParkingFloor(int floorNumber, List<ParkingSpot> parkingSpots, List<Gate> gates, ParkingFloorStatus parkingFloorStatus) {
         this.floorNumber = floorNumber;
         this.parkingSpots = parkingSpots;

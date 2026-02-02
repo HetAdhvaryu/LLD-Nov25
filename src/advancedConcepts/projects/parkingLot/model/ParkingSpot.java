@@ -6,25 +6,21 @@ import advancedConcepts.projects.parkingLot.model.constants.ParkingSpotType;
 import advancedConcepts.projects.parkingLot.model.constants.VehicleType;
 
 public class ParkingSpot extends BaseModel {
-    private int number;
+    private String number;
     private VehicleType vehicleType;
     private ParkingSpotStatus parkingSpotStatus;
     private ParkingSpotType parkingSpotType;
     private Vehicle vehicle;
 
-    public ParkingSpot(int number, VehicleType vehicleType, ParkingSpotStatus parkingSpotStatus, ParkingSpotType parkingSpotType, Vehicle vehicle) {
-        this.number = number;
-        this.vehicleType = vehicleType;
-        this.parkingSpotStatus = parkingSpotStatus;
-        this.parkingSpotType = parkingSpotType;
-        this.vehicle = vehicle;
+    public ParkingSpot() {
     }
 
-    public int getNumber() {
+
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
