@@ -1,0 +1,20 @@
+SHOW MOVIE
+1    1
+M    1
+
+SHOW MOVIE - M    1
+
+
+SHOW SHOWSEAT
+1       M
+1       1
+
+SHOW SHOWSEAT - 1:M
+
+
+Homework -
+1.GenerationType ENUM Values
+2. Setup and create a DB,
+   add the values in  properties file
+   create the tables in your machine
+3. Figure out the problem

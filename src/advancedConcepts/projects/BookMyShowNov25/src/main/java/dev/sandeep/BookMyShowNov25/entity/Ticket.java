@@ -1,14 +1,21 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
-import org.apache.catalina.User;
+import dev.sandeep.BookMyShowNov25.entity.constants.TicketStatus;
+import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
 public class Ticket extends BaseModel {
+    @OneToOne
     private Payment payment;
-    private User user;
+    @ManyToOne
+    private User user; // TICKET:USER ::  1 ticket -> 1 user , 1 user -> M tickets
+    @ManyToOne
     private Show show;
+    @OneToMany
     private List<ShowSeat> showSeats;
+    @Enumerated(EnumType.ORDINAL)
     private TicketStatus ticketStatus;
 
     public Payment getPayment() {

@@ -1,14 +1,23 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
+import dev.sandeep.BookMyShowNov25.entity.constants.Feature;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
 public class Show extends BaseModel {
-    private Movie movie;
+    @ManyToOne
+    private Movie movie; // show to movie :: M:1
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    @ManyToOne
     private Auditorium auditorium;
+    @OneToMany
     private List<ShowSeat> showSeat;
+    @Enumerated(EnumType.ORDINAL)
+    @ElementCollection
     private List<Feature> features;
 
     public Movie getMovie() {

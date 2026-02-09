@@ -1,10 +1,19 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
+import dev.sandeep.BookMyShowNov25.entity.constants.TransactionPaymentStatus;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
+
 import java.util.List;
 
+@Entity
 public class Payment extends BaseModel {
-    private List<Trnsaction> transactions; //multi-part payment
+    @OneToMany
+    private List<Transaction> transactions; //multi-part payment
     private int totalAmount;
+    @Enumerated(EnumType.ORDINAL)
     private TransactionPaymentStatus transactionPaymentStatus;
 
     public List<Transaction> getTransactions() {

@@ -1,10 +1,17 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
+import dev.sandeep.BookMyShowNov25.entity.constants.Feature;
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class Auditorium extends BaseModel {
     private String auditoriumName;
+    @OneToMany
     private List<Seat> seats;
+    @Enumerated(EnumType.ORDINAL)
+    @ElementCollection
     private List<Feature> features;
 
     public String getAuditoriumName() {

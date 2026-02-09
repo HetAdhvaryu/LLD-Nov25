@@ -1,9 +1,14 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
 import java.util.List;
 
+@Entity
 public class City extends BaseModel{
     private String cityName;
+    @OneToMany
     private List<Theatre> theatres;
 
     public String getCityName() {

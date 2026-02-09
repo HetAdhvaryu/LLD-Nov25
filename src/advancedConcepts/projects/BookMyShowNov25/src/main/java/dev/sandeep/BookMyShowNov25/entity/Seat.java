@@ -1,9 +1,16 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
+import dev.sandeep.BookMyShowNov25.entity.constants.SeatType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+@Entity
 public class Seat extends BaseModel {
     private String seatNo;
     private int row;
     private int column;
+    @Enumerated(EnumType.ORDINAL)
     private SeatType seatType;
 
     public String getSeatNo() {
