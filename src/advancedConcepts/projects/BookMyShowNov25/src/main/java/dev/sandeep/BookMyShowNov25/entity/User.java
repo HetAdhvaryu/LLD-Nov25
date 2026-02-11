@@ -1,6 +1,7 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public class User extends BaseModel{
     private String email;
     private String password;
     @OneToMany
+    @JoinColumn(name = "user_id")
     private List<Ticket> tickets;
 
     public String getName() {

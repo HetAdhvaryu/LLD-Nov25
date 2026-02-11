@@ -15,6 +15,7 @@ public class Show extends BaseModel {
     @ManyToOne
     private Auditorium auditorium;
     @OneToMany
+    @JoinColumn(name = "show_id")
     private List<ShowSeat> showSeat;
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection

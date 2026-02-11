@@ -9,6 +9,7 @@ import java.util.List;
 public class Auditorium extends BaseModel {
     private String auditoriumName;
     @OneToMany
+    @JoinColumn(name = "auditorium_id")
     private List<Seat> seats;
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection

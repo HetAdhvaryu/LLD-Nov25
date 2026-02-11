@@ -10,6 +10,20 @@ SHOW SHOWSEAT
 1       1
 
 SHOW SHOWSEAT - 1:M
+SHOWSEAT SHOW - M:1
+
+SHOWSEAT SEAT
+1         1
+M         1
+
+SHOWSEAT SEAT - M:1
+
+SHOWSEAT SHOW
+1         1
+M         1
+
+SHOW SEAT - M:1
+
 
 
 Homework -
@@ -18,3 +32,15 @@ Homework -
    add the values in  properties file
    create the tables in your machine
 3. Figure out the problem
+
+
+------------
+You should always have a interface for service class, so that controller
+never depends on the concrete implementation service class directly.
+
+Controller depends on Service INterface
+Service Interface implemented by ServiceImpl concrete class
+
+Service only talks to repo of its own type.
+TicketService -> TicketRepo [ correct ]
+TicketService -> UserRepo [ in-correct ]

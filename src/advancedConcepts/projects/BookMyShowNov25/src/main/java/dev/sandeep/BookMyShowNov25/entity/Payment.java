@@ -1,16 +1,14 @@
 package dev.sandeep.BookMyShowNov25.entity;
 
 import dev.sandeep.BookMyShowNov25.entity.constants.TransactionPaymentStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 public class Payment extends BaseModel {
     @OneToMany
+    @JoinColumn(name = "payment_id")
     private List<Transaction> transactions; //multi-part payment
     private int totalAmount;
     @Enumerated(EnumType.ORDINAL)

@@ -14,6 +14,7 @@ public class Ticket extends BaseModel {
     @ManyToOne
     private Show show;
     @OneToMany
+    @JoinColumn(name = "ticket_id")
     private List<ShowSeat> showSeats;
     @Enumerated(EnumType.ORDINAL)
     private TicketStatus ticketStatus;
