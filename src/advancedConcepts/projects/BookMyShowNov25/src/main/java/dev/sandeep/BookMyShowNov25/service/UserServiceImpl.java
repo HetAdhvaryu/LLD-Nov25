@@ -11,6 +11,10 @@ public class UserServiceImpl {
     @Autowired
     private UserRepo userRepo;
 
+    public User createUser(User user) {
+        return userRepo.save(user);
+    }
+
     public User getUserById(int id) {
         return userRepo.findById(id).get();
     }

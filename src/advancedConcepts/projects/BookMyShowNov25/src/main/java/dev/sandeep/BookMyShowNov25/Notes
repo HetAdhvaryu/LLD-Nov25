@@ -44,3 +44,44 @@ Service Interface implemented by ServiceImpl concrete class
 Service only talks to repo of its own type.
 TicketService -> TicketRepo [ correct ]
 TicketService -> UserRepo [ in-correct ]
+
+-----------------
+
+User
+private String name;
+private String email;
+private String password;
+private List<Ticket> tickets;
+
+HTTP Calls -
+POST -> Creates new data
+PUT -> updating existing data
+GET -> fetches some data
+DELETE -> deletes the data
+
+URLs should be nouns -> until extremely specific use-case
+Examples
+* Create a new user -> POST /user
+* Get a user with some id -> GET /user/{id}
+* Get a user with email -> GET /user?email="abcd@gmail.com"
+* Delete a user with some id -> DELETE /user/{id}
+* Update a user with some id -> PUT /user/{id}
+* Get all users -> GET /user
+
+Generic Validations should be done at the controller layer
+Business logic specific validations should be done at service layer
+
+DTOs -> Data Transfer Objects
+Only purpose is to be used for data transfer
+
+ReqDTO -> controller   || service -> repo [Entity]
+   <- controller <- RespDTO
+
+
+-------
+Q1. Are you clear with the creation of user flow ?
+POST -> controller -> service -> repo
+POSTMAN -> req -> response
+
+Q2. Did you understand why we need DTO objects ?
+ What is the flow, and why we added mappers ?
