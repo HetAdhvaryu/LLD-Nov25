@@ -108,3 +108,14 @@ Real-estate website
          List<Project>
     Project
         Builder
+
+
+Check-
+1215.48
+Paid - 1215.48
+
+---- HOMEWORK ----
+1. Restrict the decimal points to 2 for amounts.
+2. Read about different Generation Strategies
+3. Add all controllers for USER CRUD, GROUP CRUD, EXPENSE CRUD
+4. Replace your APIs with DTOs and mappers.
