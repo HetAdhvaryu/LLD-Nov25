@@ -1,0 +1,110 @@
+Users can create their accounts.
+1. Users can create their accounts
+2. For creating an account, user should have name, email and password
+3. User can create groups.
+4. Users can create an expense.
+To add an expense, following information is needed -
+A. Expense description
+B. Expense amount
+C. Expense Currency
+D. List of all members, who paid for expense, with their split.
+E. List of all members, who owed for the expense, with their split.
+F. For owing amount, we can have split strategy, split equally or with specific
+amounts.
+6. In group we can see all the expenses
+7. User should be able to see the total amount they owe/paid
+8. User can request a settle-up. In this case, application will show a list of transactions
+[ minimum possible] such that the amounts for everyone settles up. The output for
+each transaction would look like [ A -> B : x Rs. ]
+
+
+--- CLASSES ---
+USER
+GROUP
+EXPENSE
+TRANSACTION
+
+EXPENSE -> [ A,50 ,, B,100] and [A,-25 ,, B,-25 ,, C,-100]
+
+ExpenseTable
+id  description amount
+1       Dinner  150
+
+PayoutLedger Table
+id userId amount payoutType expenseId
+1   A       50      PAID    1
+2   B       100     PAID    1
+3   A       25      OWED    1
+4   B       25      OWED    1
+5   C       100     OWED    1
+
+
+Bi-directional and uni-directional
+
+Uni-directional mapping
+------------------------
+Expense [ description, amount ]
+PayoutLedger [ user, amount, payoutType, expense ]
+
+OR
+
+Expense [ description, amount, list<payoutLedger> ]
+PayoutLedger [ user, amount, payoutType ]
+
+Bi-directional mapping
+------------------------
+Expense [ description, amount, list<payoutLedger> ]
+PayoutLedger [ user, amount, payoutType, expense ]
+
+Example -
+Uni-directional mapping
+------------------------
+Expense [ description, amount ]
+PayoutLedger [ user, amount, payoutType, expense ]
+
+if we query for expense -> get/expense/{id} -> only scans expense table
+if we query for payoutLedget -> get/payout/{id} -> 2 scans, payoutLedgerTable and expense table
+
+Bi-directional mapping
+------------------------
+Expense [ description, amount, list<payoutLedger> ]
+PayoutLedger [ user, amount, payoutType, expense ]
+
+if we query for anyone, both the tables are scanned and appropriate response is received
+
+
+What to chose ?
+------------------
+
+Auditorium and Seat
+
+1. Auditorium           -----> CORRECT
+        List<Seat>
+   Seat
+
+2. Seat
+        auditorium
+   Auditorium
+
+3. Seat
+        auditorium
+   Auditorium
+        List<Seat>
+
+
+Real-estate website
+
+    Builder         Project
+    Sobha           Neopolis
+                    DreamAcres
+    Prestige        Prestige City
+                    Prestige Casabella
+                    Prestige Ferns
+
+1. If we select a project, would we want to see the builder details ? -> YES
+2. If we select a builder, would we want to see all their projects ? -> YES
+
+    Builder
+         List<Project>
+    Project
+        Builder

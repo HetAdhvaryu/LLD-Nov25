@@ -39,7 +39,7 @@ public class TicketServiceImpl {
                 throw new InvalidShowSeatSelectionException("ShowSeat selected is not available, showSeatId: " + showSeat.getId());
             }
         }
-        //LOCK THE SEATS
+        //LOCK THE SEATS -- blocking the seats until the payment is not done
         for(ShowSeat showSeat : showSeats){
             showSeat.setShowSeatStatus(ShowSeatStatus.LOCKED);
             showSeatServiceImpl.updateShowSeat(showSeat);
