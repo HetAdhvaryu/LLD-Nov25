@@ -1,5 +1,6 @@
 package dev.sandeep.BookMyShowNov25.service;
 
+import dev.sandeep.BookMyShowNov25.config.BCryptEncoder;
 import dev.sandeep.BookMyShowNov25.entity.User;
 import dev.sandeep.BookMyShowNov25.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private BCryptEncoder bCryptEncoder;
 
     @Override
     public User save(User user) {
+        user.setPassword(bCryptEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
@@ -43,12 +47,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepo.save(user);
+    public User getUserById(int id) {
+        return userRepo.findById(id).orElse(null);
     }
 
     @Override
-    public User getUserById(int id) {
-        return userRepo.findById(id).orElse(null);
+    public User getUserByEmail(String email, String password) {
+        User savedUser = userRepo.findByEmail(email);
+        if(savedUser != null && bCryptEncoder.matches(password, savedUser.getPassword())) {
+            return savedUser;
+        } else {
+            return null;
+        }
     }
 }

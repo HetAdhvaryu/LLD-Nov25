@@ -9,6 +9,6 @@ public interface UserService {
     void deleteById(int userId);
     List<User> getAll();
     User update(int userId, User newUser);
-    User createUser(User user);
     User getUserById(int id);
+    User getUserByEmail(String email, String password);
 }

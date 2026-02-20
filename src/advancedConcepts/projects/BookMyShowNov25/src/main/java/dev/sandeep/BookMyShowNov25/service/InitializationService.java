@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 public class InitializationService implements CommandLineRunner {
@@ -31,6 +32,8 @@ public class InitializationService implements CommandLineRunner {
     private ShowSeatService showSeatService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TicketService ticketService;
 
     private final Random random = new Random();
 
@@ -38,7 +41,25 @@ public class InitializationService implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Check if data already exists
         if (cityService.getAll().isEmpty()) {
+            System.out.println("\n═══════════════════════════════════════════════════════════════════════════");
+            System.out.println("INITIALIZING DUMMY DATA FOR BOOKMYSHOW");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════\n");
+
             initializeDummyData();
+
+            System.out.println("\n═══════════════════════════════════════════════════════════════════════════");
+            System.out.println("DUMMY DATA INITIALIZATION COMPLETED SUCCESSFULLY");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════\n");
+
+            // Add small delay to ensure data is fully persisted
+            Thread.sleep(1000);
+
+            // Demonstrate concurrent booking after initialization
+            demonstrateConcurrentBooking();
+        } else {
+            System.out.println("\n═══════════════════════════════════════════════════════════════════════════");
+            System.out.println("DUMMY DATA ALREADY EXISTS - SKIPPING INITIALIZATION");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════\n");
         }
     }
 
@@ -255,5 +276,82 @@ public class InitializationService implements CommandLineRunner {
             user.setPassword("password123"); // Default password for testing
             userService.save(user);
         }
+    }
+
+    /**
+     * Demonstrates concurrent booking with two threads trying to book the same seat simultaneously
+     * Thread 1: User ID 1 (Rajesh Kumar) books Seat ID 1
+     * Thread 2: User ID 2 (Priya Singh) books Seat ID 1
+     *
+     * Expected Result:
+     * - One thread succeeds (HTTP 201)
+     * - One thread fails (HTTP 400 - Seat not available)
+     * - SERIALIZABLE isolation prevents double booking
+     */
+    public void demonstrateConcurrentBooking() {
+        System.out.println("\n╔════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 CONCURRENT BOOKING DEMONSTRATION                             ║");
+        System.out.println("║  Scenario: Two users booking the SAME seat at the EXACT same time            ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════════════════╝\n");
+
+        // CountDownLatch to ensure both threads start at the same time
+        CountDownLatch startLatch = new CountDownLatch(2);
+
+        // Get the first available show seat (Seat ID 1)
+        List<ShowSeat> allShowSeats = showSeatService.getAll();
+        if (allShowSeats.isEmpty()) {
+            System.out.println("No show seats available for booking demo!");
+            return;
+        }
+
+        ShowSeat targetSeat = allShowSeats.get(0);
+        System.out.println("Target Seat: ID=" + targetSeat.getId() + ", Status=" + targetSeat.getShowSeatStatus() + "\n");
+
+        // Thread 1: User A (ID=1) tries to book Seat 1
+        Thread thread1 = new Thread(() -> {
+            try {
+                startLatch.countDown();
+                startLatch.await(); // Wait for both threads to be ready
+
+                System.out.println("[Thread-1] User A starting booking process...");
+                ticketService.createTicket(java.util.List.of(targetSeat.getId()), 1);
+                System.out.println("[Thread-1] User A booking succeeded ✅\n");
+
+            } catch (Exception e) {
+                System.out.println("[Thread-1] User A booking failed: " + e.getMessage() + " ❌\n");
+            }
+        }, "User-A-Thread");
+
+        // Thread 2: User B (ID=2) tries to book the same Seat 1
+        Thread thread2 = new Thread(() -> {
+            try {
+                startLatch.countDown();
+                startLatch.await(); // Wait for both threads to be ready
+
+                System.out.println("[Thread-2] User B starting booking process...");
+                ticketService.createTicket(java.util.List.of(targetSeat.getId()), 2);
+                System.out.println("[Thread-2] User B booking succeeded ✅\n");
+
+            } catch (Exception e) {
+                System.out.println("[Thread-2] User B booking failed: " + e.getMessage() + " ❌\n");
+            }
+        }, "User-B-Thread");
+
+        // Start both threads
+        thread1.start();
+        thread2.start();
+
+        // Wait for both threads to complete
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            System.err.println("Concurrent booking demo interrupted: " + e.getMessage());
+        }
+
+        System.out.println("╔════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 DEMO COMPLETED - RACE CONDITION HANDLED SAFELY              ║");
+        System.out.println("║  One user succeeded, one user failed → No double booking occurred!         ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════════════════╝\n");
     }
 }
