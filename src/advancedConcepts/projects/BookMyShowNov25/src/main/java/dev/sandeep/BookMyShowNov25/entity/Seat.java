@@ -8,8 +8,8 @@ import jakarta.persistence.Enumerated;
 @Entity
 public class Seat extends BaseModel {
     private String seatNo;
-    private int row;
-    private int column;
+    private int seatRow;
+    private int seatColumn;
     @Enumerated(EnumType.ORDINAL)
     private SeatType seatType;
 
@@ -21,20 +21,20 @@ public class Seat extends BaseModel {
         this.seatNo = seatNo;
     }
 
-    public int getRow() {
-        return row;
+    public int getSeatRow() {
+        return seatRow;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setSeatRow(int row) {
+        this.seatRow = row;
     }
 
-    public int getColumn() {
-        return column;
+    public int getSeatColumn() {
+        return seatColumn;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public void setSeatColumn(int column) {
+        this.seatColumn = column;
     }
 
     public SeatType getSeatType() {

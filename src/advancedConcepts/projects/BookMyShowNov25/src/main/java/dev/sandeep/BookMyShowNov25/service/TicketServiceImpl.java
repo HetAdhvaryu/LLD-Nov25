@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class TicketServiceImpl {
+public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private TicketRepo ticketRepo;
@@ -27,7 +27,37 @@ public class TicketServiceImpl {
     @Autowired
     private ShowServiceImpl showServiceImpl;
 
+    @Override
+    public Ticket save(Ticket ticket) {
+        return ticketRepo.save(ticket);
+    }
 
+    @Override
+    public Ticket getById(int ticketId) {
+        return ticketRepo.findById(ticketId).orElse(null);
+    }
+
+    @Override
+    public void deleteById(int ticketId) {
+        ticketRepo.deleteById(ticketId);
+    }
+
+    @Override
+    public List<Ticket> getAll() {
+        return ticketRepo.findAll();
+    }
+
+    @Override
+    public Ticket update(int ticketId, Ticket newTicket) {
+        if (ticketRepo.existsById(ticketId)) {
+            newTicket.setId(ticketId);
+            return ticketRepo.save(newTicket);
+        }
+        return null;
+    }
+
+
+    @Override
     @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
     public Ticket createTicket(List<Integer> showSeatIds, Integer userId){
         User user = userServiceImpl.getUserById(userId);
